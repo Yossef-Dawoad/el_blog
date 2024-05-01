@@ -1,6 +1,6 @@
-import '../../domain/entities/user_entity.dart';
+import '../../../../core/common/entities/user_entity.dart';
 
-class UserModel extends User {
+class UserModel extends UserEntity {
   UserModel({
     required super.id,
     required super.username,

@@ -70,9 +70,10 @@ class _LogInPageState extends State<LogInPage> {
                     label: 'Sign In',
                     onPressed: () => _performLogIn(context),
                   ),
+                  const SizedBox(height: 30),
                   RichText(
                     text: TextSpan(
-                      text: 'Don\'t have an account?',
+                      text: 'Don\'t have an account? ',
                       style: Theme.of(context).textTheme.titleMedium,
                       children: [
                         TextSpan(

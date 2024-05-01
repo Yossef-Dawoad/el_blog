@@ -41,6 +41,7 @@ class _SignUpPageState extends State<SignUpPage> {
         padding: const EdgeInsets.all(Space.dfltSpace),
         child: BlocConsumer<AuthBloc, AuthState>(
           listener: (context, state) => switch (state) {
+            AuthLoading() => showSnackBar(context, 'Loading...'),
             AuthFailure() => showSnackBar(context, state.message),
             AuthSuccess() => context.popUntilRouteNamed(Routes.logIn),
             _ => showSnackBar(context, 'Sometning went wrong'),
@@ -118,6 +119,6 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
           );
     }
-    //TODO display popup wit te error
+    //TODO display popup with te error
   }
 }

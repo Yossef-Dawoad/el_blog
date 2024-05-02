@@ -45,7 +45,10 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
-	<!-- Add this array for Deep Links -->
+	<!-- this to access user gallary -->
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Required access to your gallary to add images to Your blog you creating</string>
+	<!-- this array for SupaBase Deep Links -->
   <key>CFBundleURLTypes</key>
   <array>
     <dict>

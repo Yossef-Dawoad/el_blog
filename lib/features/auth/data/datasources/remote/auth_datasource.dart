@@ -1,6 +1,8 @@
+import 'package:flutter/foundation.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 import 'package:clean_blog/core/errors/exceptions.dart';
 import 'package:clean_blog/features/auth/data/models/user_model.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract interface class RemoteAuthDataSource {
   Future<UserModel> signUpWithEmailPassword({
@@ -66,6 +68,7 @@ class RemoteAuthDataSourceImpl implements RemoteAuthDataSource {
         email: email,
         password: password,
         data: {'username': name},
+        // emailRedirectTo: kIsWeb ? null : 'io.supabase.flutterquickstart://login-callback/',
       );
       if (response.user == null) throw ServerException(message: 'User is Null');
       return UserModel.fromJson(response.user!.toJson());

@@ -25,9 +25,14 @@ class AppTheme {
           fontSize: 18,
         ),
       ),
+      chipTheme: const ChipThemeData(
+        color: MaterialStatePropertyAll<Color>(Pallete.backgroundColor),
+      ),
       inputDecorationTheme: InputDecorationTheme(
+        border: _makeBorder(),
         contentPadding: const EdgeInsets.all(25),
         enabledBorder: _makeBorder(),
         focusedBorder: _makeBorder(Pallete.gradient2),
+        errorBorder: _makeBorder(Pallete.errorColor),
       ));
 }

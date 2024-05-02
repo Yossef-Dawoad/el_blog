@@ -1,16 +1,33 @@
+import 'package:clean_blog/core/common/entities/user_entity.dart';
 import 'package:clean_blog/core/errors/exceptions.dart';
 import 'package:clean_blog/core/errors/failure.dart';
+import 'package:clean_blog/core/utils/network/network_manager.dart';
 import 'package:clean_blog/features/auth/data/datasources/remote/auth_datasource.dart';
+import 'package:clean_blog/features/auth/data/models/user_model.dart';
 import 'package:clean_blog/features/auth/domain/repositories/authuentication_repo.dart';
+import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final RemoteAuthDataSource dataSource;
-  const AuthRepositoryImpl(this.dataSource);
+  final NetworkManager networkManager;
+  const AuthRepositoryImpl(this.dataSource, this.networkManager);
 
   @override
   Future<EitherUser> currentUser() async {
     try {
+      if (!await (networkManager.hasInternetAccess)) {
+        final session = dataSource.currentSession;
+        if (session == null) return left(BaseFailure('User not Logged In!'));
+        return right(
+          UserModel(
+            id: session.user.id,
+            username: '',
+            email: session.user.email ?? '',
+          ),
+        );
+      }
       final user = await dataSource.getCurrentUserData();
       if (user == null) return left(BaseFailure('No user found'));
       return right(user);
@@ -24,15 +41,12 @@ class AuthRepositoryImpl implements AuthRepository {
     required String email,
     required String password,
   }) async {
-    try {
-      final user = await dataSource.loginWithEmailPassword(
+    return await _errorHandller(
+      () async => await dataSource.loginWithEmailPassword(
         email: email,
         password: password,
-      );
-      return right(user);
-    } on ServerException catch (e) {
-      return left(BaseFailure(e.message));
-    }
+      ),
+    );
   }
 
   @override
@@ -41,13 +55,26 @@ class AuthRepositoryImpl implements AuthRepository {
     required String email,
     required String password,
   }) async {
-    try {
-      final user = await dataSource.signUpWithEmailPassword(
+    return await _errorHandller(
+      () async => await dataSource.signUpWithEmailPassword(
         name: name,
         email: email,
         password: password,
-      );
-      return right(user);
+      ),
+    );
+  }
+
+  Future<EitherUser> _errorHandller(
+    ValueGetter<Future<UserEntity>> func,
+  ) async {
+    try {
+      if (!await (networkManager.hasInternetAccess)) {
+        //TODO should we make InterNet Failure
+        return left(BaseFailure('No internet connection!'));
+      }
+      return right(await func());
+    } on AuthException catch (e) {
+      return left(BaseFailure(e.message));
     } on ServerException catch (e) {
       return left(BaseFailure(e.message));
     }

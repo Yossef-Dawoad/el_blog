@@ -27,8 +27,8 @@ class BlogCardWidget extends StatelessWidget {
                   scrollDirection: Axis.horizontal,
                   children: blog.topics
                       .map((el) => Padding(
-                          padding:
-                              const EdgeInsets.all(16.0).copyWith(right: 2),
+                          padding: const EdgeInsets.all(16.0)
+                              .copyWith(right: 2, left: 0),
                           child: Chip(label: Text(el))))
                       .toList(),
                 ),

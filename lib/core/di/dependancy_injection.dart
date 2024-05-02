@@ -1,5 +1,6 @@
 import 'package:clean_blog/core/common/blocs/app_user/app_user_bloc.dart';
 import 'package:clean_blog/core/secrets/supabase_sec.dart';
+import 'package:clean_blog/core/utils/network/network_manager.dart';
 import 'package:clean_blog/features/auth/data/datasources/remote/auth_datasource.dart';
 import 'package:clean_blog/features/auth/data/repositories/authuentication_repo_impl.dart';
 import 'package:clean_blog/features/auth/domain/repositories/authuentication_repo.dart';
@@ -24,6 +25,9 @@ Future<void> initializeDependancies() async {
     anonKey: SupaBaseSecrets.SUPABASE_ANON_KEY,
   );
 
+  sl.registerFactory(() => Connectivity());
+  sl.registerFactory<NetworkManager>(() => NetworkManagerImpl(sl()));
+
   _setupAuthDependancies();
   _setupBlogDependancies();
 }
@@ -36,7 +40,7 @@ void _setupAuthDependancies() {
     () => RemoteAuthDataSourceImpl(),
   );
   //-------------------//repositories//-------------------//
-  sl.registerFactory<AuthRepository>(() => AuthRepositoryImpl(sl()));
+  sl.registerFactory<AuthRepository>(() => AuthRepositoryImpl(sl(), sl()));
   //-------------------//useCases//-------------------//
   sl.registerFactory(() => UserSignUpUsecase(sl()));
   sl.registerFactory(() => UserSignInWithPasswordUsecase(sl()));

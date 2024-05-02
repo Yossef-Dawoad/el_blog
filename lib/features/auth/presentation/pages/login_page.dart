@@ -38,6 +38,8 @@ class _LogInPageState extends State<LogInPage> {
       body: Padding(
         padding: const EdgeInsets.all(Space.dfltSpace),
         child: BlocConsumer<AuthBloc, AuthState>(
+          listenWhen: (prev, curr) =>
+              curr is AuthFailure || curr is AuthSuccess,
           listener: (context, state) => switch (state) {
             AuthFailure() => showSnackBar(context, state.message),
             AuthSuccess() => context.popUntilRouteNamed(Routes.home),

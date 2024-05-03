@@ -7,7 +7,6 @@ import 'package:clean_blog/features/auth/data/models/user_model.dart';
 import 'package:clean_blog/features/auth/domain/repositories/authuentication_repo.dart';
 import 'package:flutter/foundation.dart';
 import 'package:fpdart/fpdart.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 class AuthRepositoryImpl implements AuthRepository {
   final RemoteAuthDataSource dataSource;
@@ -73,8 +72,6 @@ class AuthRepositoryImpl implements AuthRepository {
         return left(BaseFailure('No internet connection!'));
       }
       return right(await func());
-    } on AuthException catch (e) {
-      return left(BaseFailure(e.message));
     } on ServerException catch (e) {
       return left(BaseFailure(e.message));
     }

@@ -22,6 +22,8 @@ class BlogRemoteDataSourceImpl implements BlogRemoteDataSource {
       final blogData =
           await _client.from('blogs').insert(blog.toMap()).select();
       return BlogModel.fromMap(blogData.first);
+    } on PostgrestException catch (e) {
+      throw ServerException(message: e.message);
     } catch (e) {
       throw ServerException(message: e.toString());
     }
@@ -35,6 +37,8 @@ class BlogRemoteDataSourceImpl implements BlogRemoteDataSource {
     try {
       await _client.storage.from('blog_images').upload(blogId, image);
       return _client.storage.from('blog_images').getPublicUrl(blogId);
+    } on StorageException catch (e) {
+      throw ServerException(message: e.message);
     } catch (e) {
       throw ServerException(message: e.toString());
     }
@@ -49,6 +53,8 @@ class BlogRemoteDataSourceImpl implements BlogRemoteDataSource {
           .map((blog) => BlogModel.fromMap(blog)
               .copyWith(author: blog['profiles']['username']))
           .toList();
+    } on PostgrestException catch (e) {
+      throw ServerException(message: e.message);
     } catch (e) {
       throw ServerException(message: e.toString());
     }

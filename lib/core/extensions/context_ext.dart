@@ -29,8 +29,7 @@ extension NavigatingExtensions on BuildContext {
   }
 
   Future<T?> pushNamedRouteAndRemoveUntil<T>(
-    String routeName,
-    Widget page, {
+    String routeName, {
     Object? arguments,
   }) {
     return Navigator.of(this).pushNamedAndRemoveUntil(

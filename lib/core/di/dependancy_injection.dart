@@ -8,13 +8,17 @@ import 'package:clean_blog/features/auth/domain/usecases/get_current_user.dart';
 import 'package:clean_blog/features/auth/domain/usecases/login_usecase.dart';
 import 'package:clean_blog/features/auth/domain/usecases/signup_usecase.dart';
 import 'package:clean_blog/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:clean_blog/features/blog/data/datasources/local/blog_local_source.dart';
 import 'package:clean_blog/features/blog/data/datasources/remote/blog_remote_soutce.dart';
 import 'package:clean_blog/features/blog/data/repositories/blog_repository_impl.dart';
 import 'package:clean_blog/features/blog/domain/repositories/blog_repository.dart';
 import 'package:clean_blog/features/blog/domain/usecases/get_all_blogs.dart';
 import 'package:clean_blog/features/blog/domain/usecases/upload_blog.dart';
 import 'package:clean_blog/features/blog/presentation/bloc/blog_bloc/blog_bloc.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:get_it/get_it.dart';
+import 'package:hive/hive.dart';
+import 'package:path_provider/path_provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 final sl = GetIt.instance;
@@ -24,6 +28,10 @@ Future<void> initializeDependancies() async {
     url: SupaBaseSecrets.SUPABASE_URL,
     anonKey: SupaBaseSecrets.SUPABASE_ANON_KEY,
   );
+
+  // init Hive Box
+  Hive.defaultDirectory = (await getApplicationDocumentsDirectory()).path;
+  sl.registerLazySingleton(() => Hive.box(name: 'blogs'));
 
   sl.registerFactory(() => Connectivity());
   sl.registerFactory<NetworkManager>(() => NetworkManagerImpl(sl()));
@@ -60,8 +68,13 @@ void _setupBlogDependancies() {
   sl.registerFactory<BlogRemoteDataSource>(
     () => BlogRemoteDataSourceImpl(),
   );
+  sl.registerFactory<BlogLocalDataSource>(
+    () => BlogLocalDataSourceImpl(sl()),
+  );
   //-------------------//repositories//-------------------//
-  sl.registerFactory<BlogRepository>(() => BlogRepositoryImpl(sl()));
+  sl.registerFactory<BlogRepository>(
+    () => BlogRepositoryImpl(sl(), sl(), sl()),
+  );
 
   //-------------------//useCases//-------------------//
   sl.registerFactory(() => UploadBlogUseCase(sl()));

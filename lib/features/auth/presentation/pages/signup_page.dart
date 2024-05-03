@@ -45,7 +45,7 @@ class _SignUpPageState extends State<SignUpPage> {
           listener: (context, state) => switch (state) {
             AuthLoading() => showSnackBar(context, 'Loading...'),
             AuthFailure() => showSnackBar(context, state.message),
-            AuthSuccess() => context.popUntilRouteNamed(Routes.logIn),
+            AuthSuccess() => context.pushNamedRouteAndRemoveUntil(Routes.logIn),
             _ => showSnackBar(context, 'Sometning went wrong'),
           },
           builder: (context, state) {

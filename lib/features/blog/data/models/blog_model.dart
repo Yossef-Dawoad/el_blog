@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:clean_blog/features/blog/domain/entities/blog_entity.dart';
+import 'package:flutter/foundation.dart';
 
 class BlogModel extends BlogEntity {
   BlogModel({
@@ -59,5 +60,31 @@ class BlogModel extends BlogEntity {
       updatedAt: updatedAt ?? this.updatedAt,
       author: author ?? this.author,
     );
+  }
+
+  @override
+  bool operator ==(covariant BlogEntity other) {
+    if (identical(this, other)) return true;
+
+    return other.id == id &&
+        other.authorId == authorId &&
+        other.title == title &&
+        other.content == content &&
+        other.imageUrl == imageUrl &&
+        listEquals(other.topics, topics) &&
+        other.updatedAt == updatedAt &&
+        other.author == author;
+  }
+
+  @override
+  int get hashCode {
+    return id.hashCode ^
+        authorId.hashCode ^
+        title.hashCode ^
+        content.hashCode ^
+        imageUrl.hashCode ^
+        topics.hashCode ^
+        updatedAt.hashCode ^
+        author.hashCode;
   }
 }

@@ -1,4 +1,5 @@
 import 'package:clean_blog/core/common/blocs/app_user/app_user_bloc.dart';
+import 'package:clean_blog/core/common/services/cloud_services/cloud_storage_base.dart';
 import 'package:clean_blog/core/secrets/supabase_sec.dart';
 import 'package:clean_blog/core/utils/network/network_manager.dart';
 import 'package:clean_blog/features/auth/data/datasources/remote/auth_datasource.dart';
@@ -9,7 +10,9 @@ import 'package:clean_blog/features/auth/domain/usecases/login_usecase.dart';
 import 'package:clean_blog/features/auth/domain/usecases/signup_usecase.dart';
 import 'package:clean_blog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:clean_blog/features/blog/data/datasources/local/blog_local_source.dart';
+import 'package:clean_blog/features/blog/data/datasources/remote/blog_remote_db_store_service.dart';
 import 'package:clean_blog/features/blog/data/datasources/remote/blog_remote_source.dart';
+import 'package:clean_blog/features/blog/data/datasources/remote/blog_remote_storage_service.dart';
 import 'package:clean_blog/features/blog/data/repositories/blog_repository_impl.dart';
 import 'package:clean_blog/features/blog/domain/repositories/blog_repository.dart';
 import 'package:clean_blog/features/blog/domain/usecases/get_all_blogs.dart';
@@ -65,9 +68,16 @@ void _setupAuthDependancies() {
 }
 
 void _setupBlogDependancies() {
+  //-------------------//Services//-------------------//
+  sl.registerLazySingleton<CloudBlogStoreDBBase>(
+    () => CloudStoreBlogImpl(sl()),
+  );
+  sl.registerLazySingleton<CloudStorageBase>(
+    () => CloudStorageBlogImpl(sl()),
+  );
   //-------------------//dataSources//-------------------//
   sl.registerFactory<BlogRemoteSource>(
-    () => BlogRemoteSourceImpl(sl()),
+    () => BlogRemoteSourceImpl(sl(), sl()),
   );
   sl.registerFactory<BlogLocalDataSource>(
     () => BlogLocalDataSourceImpl(sl()),

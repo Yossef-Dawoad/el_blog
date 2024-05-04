@@ -4,9 +4,12 @@ import 'package:clean_blog/core/errors/exceptions.dart';
 import 'package:clean_blog/features/blog/data/models/blog_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
+import 'blog_remote_db_store_service.dart';
+import 'blog_remote_storage_service.dart';
+
 abstract interface class BlogRemoteSource {
-  Future<List<BlogModel>> getAllBlogs();
-  Future<BlogModel> uploadBlog(BlogModel blog);
+  Future<List<BlogModel>> getAllBlogsfromCloud();
+  Future<BlogModel> saveBlogtoCloud(BlogModel blog);
   Future<String> uploadBlogImage({
     required File image,
     required String blogId,
@@ -15,16 +18,15 @@ abstract interface class BlogRemoteSource {
 
 class BlogRemoteSourceImpl implements BlogRemoteSource {
   // final _client = Supabase.instance.client;
-  final SupabaseClient _client;
+  final CloudStoreBlogImpl _cloudStoreDBService;
+  final CloudStorageBlogImpl _cloudStorageService;
 
-  BlogRemoteSourceImpl(this._client);
+  BlogRemoteSourceImpl(this._cloudStoreDBService, this._cloudStorageService);
 
   @override
-  Future<BlogModel> uploadBlog(BlogModel blog) async {
+  Future<BlogModel> saveBlogtoCloud(BlogModel blog) async {
     try {
-      final blogData =
-          await _client.from('blogs').insert(blog.toMap()).select();
-      return BlogModel.fromMap(blogData.first);
+      return await _cloudStoreDBService.saveToCloud(blog);
     } on PostgrestException catch (e) {
       throw ServerException(message: e.message);
     } catch (e) {
@@ -38,8 +40,7 @@ class BlogRemoteSourceImpl implements BlogRemoteSource {
     required String blogId,
   }) async {
     try {
-      await _client.storage.from('blog_images').upload(blogId, image);
-      return _client.storage.from('blog_images').getPublicUrl(blogId);
+      return await _cloudStorageService.uploadToCloud(blogId, image);
     } on StorageException catch (e) {
       throw ServerException(message: e.message);
     } catch (e) {
@@ -48,14 +49,9 @@ class BlogRemoteSourceImpl implements BlogRemoteSource {
   }
 
   @override
-  Future<List<BlogModel>> getAllBlogs() async {
+  Future<List<BlogModel>> getAllBlogsfromCloud() async {
     try {
-      final blogs =
-          await _client.from('blogs').select('*, profiles (username)');
-      return blogs
-          .map((blog) => BlogModel.fromMap(blog)
-              .copyWith(author: blog['profiles']['username']))
-          .toList();
+      return await _cloudStoreDBService.fetchAllFromCloud();
     } on PostgrestException catch (e) {
       throw ServerException(message: e.message);
     } catch (e) {

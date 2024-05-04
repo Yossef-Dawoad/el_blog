@@ -47,7 +47,7 @@ class BlogRepositoryImpl implements BlogRepository {
         topics: topics,
         updatedAt: DateTime.now(),
       );
-      final result = await blogRemoteDataSource.uploadBlog(blogModel);
+      final result = await blogRemoteDataSource.saveBlogtoCloud(blogModel);
       return right(result);
     } on ServerException catch (e) {
       return left(BaseFailure(e.message));
@@ -62,7 +62,7 @@ class BlogRepositoryImpl implements BlogRepository {
         if (blogs.isNotEmpty) return right(blogs);
         return left(BaseFailure('No internet connection'));
       }
-      final result = await blogRemoteDataSource.getAllBlogs();
+      final result = await blogRemoteDataSource.getAllBlogsfromCloud();
       await blogLocalDataSource.saveBlogtoStorage(result);
       return right(result);
     } on ServerException catch (e) {

@@ -12,7 +12,7 @@ class CloudStorageBlogImpl implements CloudStorageBase {
   String get storagePath => 'blog_images';
 
   @override
-  Future<String> uploadToCloud(String fileId, File file) async {
+  Future<String> uploadFileToCloud(String fileId, File file) async {
     await _client.storage.from(storagePath).upload(fileId, file);
     return _client.storage.from(storagePath).getPublicUrl(fileId);
   }

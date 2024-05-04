@@ -40,7 +40,7 @@ class BlogRemoteSourceImpl implements BlogRemoteSource {
     required String blogId,
   }) async {
     try {
-      return await _cloudStorageService.uploadToCloud(blogId, image);
+      return await _cloudStorageService.uploadFileToCloud(blogId, image);
     } on StorageException catch (e) {
       throw ServerException(message: e.message);
     } catch (e) {

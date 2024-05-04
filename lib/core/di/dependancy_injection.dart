@@ -9,7 +9,7 @@ import 'package:clean_blog/features/auth/domain/usecases/login_usecase.dart';
 import 'package:clean_blog/features/auth/domain/usecases/signup_usecase.dart';
 import 'package:clean_blog/features/auth/presentation/bloc/auth_bloc.dart';
 import 'package:clean_blog/features/blog/data/datasources/local/blog_local_source.dart';
-import 'package:clean_blog/features/blog/data/datasources/remote/blog_remote_soutce.dart';
+import 'package:clean_blog/features/blog/data/datasources/remote/blog_remote_source.dart';
 import 'package:clean_blog/features/blog/data/repositories/blog_repository_impl.dart';
 import 'package:clean_blog/features/blog/domain/repositories/blog_repository.dart';
 import 'package:clean_blog/features/blog/domain/usecases/get_all_blogs.dart';
@@ -24,7 +24,7 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 final sl = GetIt.instance;
 Future<void> initializeDependancies() async {
   // init supabase client
-  await Supabase.initialize(
+  final supabase = await Supabase.initialize(
     url: SupaBaseSecrets.SUPABASE_URL,
     anonKey: SupaBaseSecrets.SUPABASE_ANON_KEY,
   );
@@ -35,6 +35,7 @@ Future<void> initializeDependancies() async {
 
   sl.registerFactory(() => Connectivity());
   sl.registerFactory<NetworkManager>(() => NetworkManagerImpl(sl()));
+  sl.registerLazySingleton<SupabaseClient>(() => supabase.client);
 
   _setupAuthDependancies();
   _setupBlogDependancies();
@@ -66,7 +67,7 @@ void _setupAuthDependancies() {
 void _setupBlogDependancies() {
   //-------------------//dataSources//-------------------//
   sl.registerFactory<BlogRemoteDataSource>(
-    () => BlogRemoteDataSourceImpl(),
+    () => BlogRemoteDataSourceImpl(sl()),
   );
   sl.registerFactory<BlogLocalDataSource>(
     () => BlogLocalDataSourceImpl(sl()),

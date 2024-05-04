@@ -4,7 +4,7 @@ import 'package:clean_blog/core/errors/exceptions.dart';
 import 'package:clean_blog/core/errors/failure.dart';
 import 'package:clean_blog/core/utils/network/network_manager.dart';
 import 'package:clean_blog/features/blog/data/datasources/local/blog_local_source.dart';
-import 'package:clean_blog/features/blog/data/datasources/remote/blog_remote_soutce.dart';
+import 'package:clean_blog/features/blog/data/datasources/remote/blog_remote_source.dart';
 import 'package:clean_blog/features/blog/data/models/blog_model.dart';
 import 'package:clean_blog/features/blog/domain/entities/blog_entity.dart';
 import 'package:clean_blog/features/blog/domain/repositories/blog_repository.dart';
@@ -12,7 +12,7 @@ import 'package:fpdart/fpdart.dart';
 import 'package:uuid/uuid.dart';
 
 class BlogRepositoryImpl implements BlogRepository {
-  final BlogRemoteDataSource blogRemoteDataSource;
+  final BlogRemoteSource blogRemoteDataSource;
   final BlogLocalDataSource blogLocalDataSource;
   final NetworkManager networkManager;
   BlogRepositoryImpl(

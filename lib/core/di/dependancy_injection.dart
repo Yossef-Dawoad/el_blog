@@ -66,8 +66,8 @@ void _setupAuthDependancies() {
 
 void _setupBlogDependancies() {
   //-------------------//dataSources//-------------------//
-  sl.registerFactory<BlogRemoteDataSource>(
-    () => BlogRemoteDataSourceImpl(sl()),
+  sl.registerFactory<BlogRemoteSource>(
+    () => BlogRemoteSourceImpl(sl()),
   );
   sl.registerFactory<BlogLocalDataSource>(
     () => BlogLocalDataSourceImpl(sl()),

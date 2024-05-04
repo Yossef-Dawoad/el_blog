@@ -1,0 +1,13 @@
+{
+    "id": "1",
+    "author_id": "001",
+    "title": "Dart is Actualy A Really Nice Language",
+    "content": "blah blah blah",
+    "image_url": "image/url/path",
+    "topics": [
+        "programming",
+        "flutter"
+    ],
+    "updated_at": "2024-05-04T02:38:46.609924",
+    "author": "ali Ahmed"
+}

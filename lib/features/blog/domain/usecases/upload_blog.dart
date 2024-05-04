@@ -3,7 +3,7 @@ import 'dart:io';
 import 'package:clean_blog/core/common/usecase/usecase_base.dart';
 import 'package:clean_blog/core/errors/failure.dart';
 import 'package:clean_blog/features/blog/domain/repositories/blog_repository.dart';
-import 'package:fpdart/src/either.dart';
+import 'package:fpdart/fpdart.dart';
 
 import '../entities/blog_entity.dart';
 

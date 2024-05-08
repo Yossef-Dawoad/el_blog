@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:clean_blog/core/errors/exceptions.dart';
 import 'package:clean_blog/core/errors/failure.dart';
 import 'package:clean_blog/features/blog/domain/entities/blog_entity.dart';
 
@@ -20,7 +21,7 @@ void main() {
     uploadBlogUseCase = UploadBlogUseCase(mockBlogRepository);
   });
 
-  group('UploadBlogUseCase', () {
+  group('UploadBlogUseCase - ', () {
     const authorId = 'authorId';
     const title = 'title';
     const content = 'content';
@@ -79,10 +80,10 @@ void main() {
           title: title,
           content: content,
           image: image,
-          topics: topics)).thenThrow(Exception());
+          topics: topics)).thenThrow(ServerException(message: 'not working'));
 
       // Act
-      final result = await uploadBlogUseCase(UploadBlogParams(
+      final result = uploadBlogUseCase(UploadBlogParams(
           userId: authorId,
           title: title,
           content: content,
@@ -90,7 +91,10 @@ void main() {
           topics: topics));
 
       // Assert
-      expect(result, isA<Left<BaseFailure, BlogEntity>>());
+      expect(
+        result,
+        throwsA(isA<ServerException>()),
+      ); // isA<Right<BaseFailure, BlogEntity>>()
       verify(() => mockBlogRepository.uploadBlog(
           authorId: authorId,
           title: title,

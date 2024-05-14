@@ -1,8 +1,8 @@
-import 'package:clean_blog/features/auth/domain/entities/user_entity.dart';
+import 'package:clean_blog/core/common/entities/user_entity.dart';
 import 'package:fpdart/fpdart.dart';
 import 'package:clean_blog/core/errors/failure.dart';
 
-typedef EitherUser = Either<BaseFailure, User>;
+typedef EitherUser = Either<BaseFailure, UserEntity>;
 
 abstract interface class AuthRepository {
   Future<EitherUser> signUpWithEmailPassword({

@@ -40,9 +40,12 @@ class _SignUpPageState extends State<SignUpPage> {
       body: Padding(
         padding: const EdgeInsets.all(Space.dfltSpace),
         child: BlocConsumer<AuthBloc, AuthState>(
+          listenWhen: (prev, curr) =>
+              curr is AuthLoading || curr is AuthFailure || curr is AuthSuccess,
           listener: (context, state) => switch (state) {
+            AuthLoading() => showSnackBar(context, 'Loading...'),
             AuthFailure() => showSnackBar(context, state.message),
-            AuthSuccess() => context.popUntilRouteNamed(Routes.logIn),
+            AuthSuccess() => context.pushNamedRouteAndRemoveUntil(Routes.logIn),
             _ => showSnackBar(context, 'Sometning went wrong'),
           },
           builder: (context, state) {
@@ -118,6 +121,6 @@ class _SignUpPageState extends State<SignUpPage> {
             ),
           );
     }
-    //TODO display popup wit te error
+    //TODO display popup with te error
   }
 }

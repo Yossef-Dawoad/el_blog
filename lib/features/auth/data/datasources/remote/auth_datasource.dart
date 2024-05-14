@@ -1,6 +1,7 @@
+import 'package:supabase_flutter/supabase_flutter.dart';
+
 import 'package:clean_blog/core/errors/exceptions.dart';
 import 'package:clean_blog/features/auth/data/models/user_model.dart';
-import 'package:supabase_flutter/supabase_flutter.dart';
 
 abstract interface class RemoteAuthDataSource {
   Future<UserModel> signUpWithEmailPassword({
@@ -17,8 +18,7 @@ abstract interface class RemoteAuthDataSource {
 }
 
 class RemoteAuthDataSourceImpl implements RemoteAuthDataSource {
-  final SupabaseClient client;
-  RemoteAuthDataSourceImpl(this.client);
+  final client = Supabase.instance.client;
 
   @override
   Future<UserModel?> getCurrentUserData() async {
@@ -42,13 +42,15 @@ class RemoteAuthDataSourceImpl implements RemoteAuthDataSource {
   }) async {
     try {
       final response = await client.auth.signInWithPassword(
-        password: password,
         email: email,
+        password: password,
       );
       if (response.user == null) throw ServerException(message: 'User is Null');
 
       return UserModel.fromJson(response.user!.toJson())
           .copyWith(email: currentSession!.user.email);
+    } on AuthException catch (e) {
+      throw ServerException(message: e.message);
     } catch (e) {
       throw ServerException(message: e.toString());
     }
@@ -62,13 +64,15 @@ class RemoteAuthDataSourceImpl implements RemoteAuthDataSource {
   }) async {
     try {
       final response = await client.auth.signUp(
-        password: password,
         email: email,
+        password: password,
         data: {'username': name},
+        // emailRedirectTo: kIsWeb ? null : 'io.supabase.flutterquickstart://login-callback/',
       );
       if (response.user == null) throw ServerException(message: 'User is Null');
-      return UserModel.fromJson(response.user!.toJson())
-          .copyWith(email: currentSession!.user.email);
+      return UserModel.fromJson(response.user!.toJson());
+    } on AuthException catch (e) {
+      throw ServerException(message: e.message);
     } catch (e) {
       throw ServerException(message: e.toString());
     }

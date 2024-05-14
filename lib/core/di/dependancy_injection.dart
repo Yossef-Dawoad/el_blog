@@ -46,7 +46,7 @@ Future<void> initializeDependancies() async {
 
 void _setupAuthDependancies() {
   //-------------------//services//-------------------//
-  sl.registerLazySingleton(() => AppUserBloc());
+  sl.registerLazySingleton(() => AuthenticatedUserBloc());
   //-------------------//dataSources//-------------------//
   sl.registerFactory<RemoteAuthDataSource>(
     () => RemoteAuthDataSourceImpl(),

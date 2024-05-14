@@ -3,7 +3,6 @@ import 'package:clean_blog/core/utils/calculate_read_time/calculate_read_time.da
 import 'package:clean_blog/core/utils/formatters/date_formatter.dart';
 import 'package:clean_blog/features/blog/domain/entities/blog_entity.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 
 class BlogViewPage extends StatelessWidget {
   static route(BlogEntity blog) => MaterialPageRoute(
@@ -26,7 +25,7 @@ class BlogViewPage extends StatelessWidget {
               children: [
                 Text(
                   blog.title,
-                  style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                  style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                 ),
                 const SizedBox(height: 12),
                 ClipRRect(

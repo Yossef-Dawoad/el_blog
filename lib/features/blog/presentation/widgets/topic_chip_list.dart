@@ -21,7 +21,7 @@ class _MyWidgetState extends State<MyWidget> {
                 child: InkWell(
                   onTap: () => _selectTopics(el),
                   child: Chip(
-                      color: MaterialStatePropertyAll(
+                      color: WidgetStatePropertyAll(
                         selectedTopics.contains(el) ? Pallete.gradient1 : null,
                       ),
                       label: Text(el)),

@@ -1,4 +1,5 @@
 import 'package:clean_blog/core/common/blocs/app_user/app_user_bloc.dart';
+import 'package:clean_blog/core/common/blocs/localization/localization_bloc.dart';
 import 'package:clean_blog/core/common/services/cloud_services/cloud_storage_base.dart';
 import 'package:clean_blog/core/secrets/supabase_sec.dart';
 import 'package:clean_blog/core/utils/network/network_manager.dart';
@@ -39,6 +40,9 @@ Future<void> initializeDependancies() async {
   sl.registerFactory(() => Connectivity());
   sl.registerFactory<NetworkManager>(() => NetworkManagerImpl(sl()));
   sl.registerLazySingleton<SupabaseClient>(() => supabase.client);
+
+  // App Wise Blocs
+  sl.registerLazySingleton(() => LocalizationBloc());
 
   _setupAuthDependancies();
   _setupBlogDependancies();

@@ -6,11 +6,13 @@ import 'package:clean_blog/core/extensions/context_ext.dart';
 import 'package:clean_blog/core/routes/routes.dart';
 import 'package:clean_blog/core/theme/color_pallete.dart';
 import 'package:clean_blog/features/auth/presentation/bloc/auth_bloc.dart';
+import 'package:clean_blog/generated/l10n.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../widgets/auth_input_field.dart';
+import '../../../../core/common/widgets/language_switcher_widget.dart';
 
 class LogInPage extends StatefulWidget {
   const LogInPage({super.key});
@@ -34,12 +36,12 @@ class _LogInPageState extends State<LogInPage> {
 
   @override
   Widget build(BuildContext context) {
+    final l10n = S.of(context);
     return Scaffold(
       body: Padding(
         padding: const EdgeInsets.all(Space.dfltSpace),
         child: BlocConsumer<AuthBloc, AuthState>(
-          listenWhen: (prev, curr) =>
-              curr is AuthFailure || curr is AuthSuccess,
+          listenWhen: (prev, curr) => curr is AuthFailure || curr is AuthSuccess,
           listener: (context, state) => switch (state) {
             AuthFailure() => showSnackBar(context, state.message),
             AuthSuccess() => context.pushNamedRouteAndRemoveUntil(Routes.home),
@@ -53,7 +55,7 @@ class _LogInPageState extends State<LogInPage> {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Text(
-                    'Sign In.',
+                    l10n.signIn,
                     style: Theme.of(context).textTheme.titleLarge,
                   ),
                   const SizedBox(height: 30),
@@ -69,29 +71,30 @@ class _LogInPageState extends State<LogInPage> {
                   ),
                   const SizedBox(height: 30),
                   CTAButton(
-                    label: 'Sign In',
+                    label: l10n.signIn,
                     onPressed: () => _performLogIn(context),
                   ),
                   const SizedBox(height: 30),
                   RichText(
                     text: TextSpan(
-                      text: 'Don\'t have an account? ',
+                      text: l10n.dontHaveAcc,
                       style: Theme.of(context).textTheme.titleMedium,
                       children: [
                         TextSpan(
-                          text: 'Sign Up',
-                          style:
-                              Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    color: Pallete.gradient1,
-                                    fontWeight: FontWeight.bold,
-                                  ),
+                          text: l10n.signUp,
+                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                color: Pallete.gradient1,
+                                fontWeight: FontWeight.bold,
+                              ),
                           recognizer: TapGestureRecognizer()
-                            ..onTap =
-                                () => context.pushNamedRoute(Routes.signUp),
+                            ..onTap = () => context.pushNamedRoute(Routes.signUp),
                         )
                       ],
                     ),
-                  )
+                  ),
+                  const Spacer(),
+                  LanguageSwitcher(l10n: l10n),
+                  const SizedBox(height: 12.0)
                 ],
               ),
             );

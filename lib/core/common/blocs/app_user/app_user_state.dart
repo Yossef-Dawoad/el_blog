@@ -1,11 +1,11 @@
 part of 'app_user_bloc.dart';
 
 @immutable
-sealed class AppUserState {}
+sealed class AuthenticatedUserState {}
 
-final class AppUserInitial extends AppUserState {}
+final class AuthenticatedUserInitial extends AuthenticatedUserState {}
 
-final class AppUserLoggedInSuccess extends AppUserState {
+final class AuthenticatedUserLoggedInSuccess extends AuthenticatedUserState {
   final UserEntity user;
-  AppUserLoggedInSuccess(this.user);
+  AuthenticatedUserLoggedInSuccess(this.user);
 }

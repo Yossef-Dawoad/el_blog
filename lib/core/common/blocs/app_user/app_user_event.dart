@@ -1,9 +1,9 @@
 part of 'app_user_bloc.dart';
 
 @immutable
-sealed class AppUserEvent {}
+sealed class AuthenticatedUserEvent {}
 
-final class AppUserUpdated extends AppUserEvent {
+final class AuthenticatedUserUpdated extends AuthenticatedUserEvent {
   final UserEntity? user;
-  AppUserUpdated(this.user);
+  AuthenticatedUserUpdated(this.user);
 }

@@ -6,14 +6,14 @@ import '../../entities/user_entity.dart';
 part 'app_user_event.dart';
 part 'app_user_state.dart';
 
-class AppUserBloc extends Bloc<AppUserEvent, AppUserState> {
-  AppUserBloc() : super(AppUserInitial()) {
-    on<AppUserUpdated>((event, emit) {
+class AuthenticatedUserBloc extends Bloc<AuthenticatedUserEvent, AuthenticatedUserState> {
+  AuthenticatedUserBloc() : super(AuthenticatedUserInitial()) {
+    on<AuthenticatedUserUpdated>((event, emit) {
       if (event.user != null) {
-        emit(AppUserLoggedInSuccess(event.user!));
+        emit(AuthenticatedUserLoggedInSuccess(event.user!));
         return;
       }
-      emit(AppUserInitial());
+      emit(AuthenticatedUserInitial());
     });
   }
 }

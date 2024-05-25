@@ -52,19 +52,14 @@ class _AddNewBlogState extends State<AddNewBlog> {
       ),
       body: BlocConsumer<BlogBloc, BlogState>(
         listenWhen: (prev, curr) =>
-            curr is BlogLoading ||
-            curr is BloguploadSuccess ||
-            curr is BlogUploadFailure,
+            curr is BlogLoading || curr is BloguploadSuccess || curr is BlogUploadFailure,
         buildWhen: (prev, curr) =>
-            curr is BlogLoading ||
-            curr is BloguploadSuccess ||
-            curr is BlogUploadFailure,
+            curr is BlogLoading || curr is BloguploadSuccess || curr is BlogUploadFailure,
         listener: (context, state) {
           if (state is BlogUploadFailure) {
             showSnackBar(context, state.error);
           } else if (state is BloguploadSuccess) {
-            Navigator.pushNamedAndRemoveUntil(
-                context, BlogPage.route(), (route) => false);
+            Navigator.pushNamedAndRemoveUntil(context, BlogPage.route(), (route) => false);
           }
         },
         builder: (context, state) {
@@ -99,8 +94,7 @@ class _AddNewBlogState extends State<AddNewBlog> {
                                   children: [
                                     Icon(Icons.folder_open_rounded, size: 40),
                                     SizedBox(height: 15),
-                                    Text('Select your image',
-                                        style: TextStyle(fontSize: 15)),
+                                    Text('Select your image', style: TextStyle(fontSize: 15)),
                                   ],
                                 ),
                               ),
@@ -109,21 +103,14 @@ class _AddNewBlogState extends State<AddNewBlog> {
                     const SizedBox(height: 20),
                     ListView(
                       scrollDirection: Axis.horizontal,
-                      children: [
-                        'Technology',
-                        'Business',
-                        'Programming',
-                        'Entertainment'
-                      ]
+                      children: ['Technology', 'Business', 'Programming', 'Entertainment']
                           .map((el) => Padding(
                                 padding: const EdgeInsets.all(5.0),
                                 child: InkWell(
                                   onTap: () => _selectTopics(el),
                                   child: Chip(
                                       color: WidgetStatePropertyAll(
-                                        selectedTopics.contains(el)
-                                            ? Pallete.gradient1
-                                            : null,
+                                        selectedTopics.contains(el) ? Pallete.gradient1 : null,
                                       ),
                                       label: Text(el)),
                                 ),
@@ -131,11 +118,9 @@ class _AddNewBlogState extends State<AddNewBlog> {
                           .toList(),
                     ),
                     const SizedBox(height: 20),
-                    BlogTextField(
-                        controller: _titleCtrl, hintText: 'Blog Tilte'),
+                    BlogTextField(controller: _titleCtrl, hintText: 'Blog Tilte'),
                     const SizedBox(height: 20),
-                    BlogTextField(
-                        controller: _contentCtrl, hintText: 'Blog Content'),
+                    BlogTextField(controller: _contentCtrl, hintText: 'Blog Content'),
                   ],
                 ),
               ),
@@ -156,11 +141,9 @@ class _AddNewBlogState extends State<AddNewBlog> {
   }
 
   void _uploadBlog() {
-    if (_formKey.currentState!.validate() &&
-        selectedTopics.isNotEmpty &&
-        image != null) {
+    if (_formKey.currentState!.validate() && selectedTopics.isNotEmpty && image != null) {
       final userId =
-          (context.read<AppUserBloc>().state as AppUserLoggedInSuccess).user.id;
+          (context.read<AuthenticatedUserBloc>().state as AuthenticatedUserLoggedInSuccess).user.id;
       context.read<BlogBloc>().add(BlogUploaded(
           userId: userId,
           title: _titleCtrl.text.trim(),

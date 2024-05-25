@@ -14,12 +14,12 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final UserSignUpUsecase _signUpUsecase;
   final UserSignInWithPasswordUsecase _signInWithPasswordUsecase;
   final GetCurrentUser _getCurrentUser;
-  final AppUserBloc _appUserBloc;
+  final AuthenticatedUserBloc _appUserBloc;
   AuthBloc({
     required UserSignUpUsecase signUpUsecase,
     required UserSignInWithPasswordUsecase signInWithPasswordUsecase,
     required GetCurrentUser getCurrentUser,
-    required AppUserBloc appUserBloc,
+    required AuthenticatedUserBloc appUserBloc,
   })  : _signUpUsecase = signUpUsecase,
         _signInWithPasswordUsecase = signInWithPasswordUsecase,
         _getCurrentUser = getCurrentUser,
@@ -63,7 +63,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _emitAuthSuccess(UserEntity user, Emitter<AuthState> emit) {
-    _appUserBloc.add(AppUserUpdated(user));
+    _appUserBloc.add(AuthenticatedUserUpdated(user));
     emit(AuthSuccess(user));
   }
 }

@@ -24,6 +24,8 @@ class MessageLookup extends MessageLookupByLibrary {
   static Map<String, Function> _notInlinedMessages(_) => <String, Function>{
         "changeLanguage": MessageLookupByLibrary.simpleMessage(
             "Feel Free to adjust the language settings of your application."),
+        "chooseLanguage": MessageLookupByLibrary.simpleMessage(
+            "Select Your Preferred Language"),
         "dontHaveAcc":
             MessageLookupByLibrary.simpleMessage("Don\'\'t have an account? "),
         "signIn": MessageLookupByLibrary.simpleMessage("Sign In."),

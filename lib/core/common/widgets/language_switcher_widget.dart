@@ -1,5 +1,8 @@
+import 'package:clean_blog/core/common/blocs/localization/localization_bloc.dart';
+import 'package:clean_blog/core/common/widgets/language_bottom_sheet.dart';
 import 'package:clean_blog/generated/l10n.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 class LanguageSwitcher extends StatelessWidget {
   const LanguageSwitcher({
@@ -21,9 +24,24 @@ class LanguageSwitcher extends StatelessWidget {
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
               child: OutlinedButton(
-                onPressed: () {},
+                style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.all(8.0),
+                    shape: ContinuousRectangleBorder(borderRadius: BorderRadius.circular(20))),
+                onPressed: () => showLanguagesSwitcherBottomSheet(context),
                 child: Row(
                   children: [
+                    BlocBuilder<LocalizationBloc, LocalizationState>(
+                      // listenWhen: (previous, current) => current is LocalizationChangeSuccess,
+                      // listener: (context, state) =>
+                      //     state is LocalizationChangeSuccess ? Navigator.pop(context) : null,
+                      builder: (context, state) => ClipOval(
+                        child: Image.asset(
+                          state.selectedLanguage.imagePath,
+                          width: 20,
+                          height: 20,
+                        ),
+                      ),
+                    ),
                     Expanded(
                       child: Icon(Icons.arrow_drop_down),
                     )
@@ -31,7 +49,7 @@ class LanguageSwitcher extends StatelessWidget {
                 ),
               ),
             ),
-          )
+          ),
         ],
       ),
     );

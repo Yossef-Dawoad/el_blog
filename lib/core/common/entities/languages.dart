@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum Languages {
+enum LanguagesEnum {
   english(
     Locale('en', 'US'),
     'assets/images/english.png',
@@ -12,7 +12,7 @@ enum Languages {
     "Arabic",
   );
 
-  const Languages(this.locale, this.imagePath, this.name);
+  const LanguagesEnum(this.locale, this.imagePath, this.name);
   final Locale locale;
   final String imagePath;
   final String name;

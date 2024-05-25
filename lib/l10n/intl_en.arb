@@ -1,1 +1,6 @@
-{}
+{
+    "signIn": "Sign In.",
+    "signUp": "Sign Up",
+    "dontHaveAcc": "Don''t have an account? ",
+    "changeLanguage": "Feel Free to adjust the language settings of your application."
+}

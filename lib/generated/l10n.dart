@@ -49,6 +49,46 @@ class S {
   static S? maybeOf(BuildContext context) {
     return Localizations.of<S>(context, S);
   }
+
+  /// `Sign In.`
+  String get signIn {
+    return Intl.message(
+      'Sign In.',
+      name: 'signIn',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Sign Up`
+  String get signUp {
+    return Intl.message(
+      'Sign Up',
+      name: 'signUp',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Don''t have an account? `
+  String get dontHaveAcc {
+    return Intl.message(
+      'Don\'\'t have an account? ',
+      name: 'dontHaveAcc',
+      desc: '',
+      args: [],
+    );
+  }
+
+  /// `Feel Free to adjust the language settings of your application.`
+  String get changeLanguage {
+    return Intl.message(
+      'Feel Free to adjust the language settings of your application.',
+      name: 'changeLanguage',
+      desc: '',
+      args: [],
+    );
+  }
 }
 
 class AppLocalizationDelegate extends LocalizationsDelegate<S> {

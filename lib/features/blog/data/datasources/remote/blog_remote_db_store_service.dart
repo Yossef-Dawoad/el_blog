@@ -46,7 +46,13 @@ class CloudStoreBlogImpl implements CloudBlogStoreDBBase {
 
   @override
   Future<BlogModel?> updateInCloud(BlogModel model) async {
-    final data = await _client.from(collectionPath).update(model.toMap()).select().maybeSingle();
+    final userId = _client.auth.currentUser!.id;
+    final data = await _client
+        .from(collectionPath)
+        .update(model.toMap())
+        .eq('user_id', userId)
+        .select()
+        .maybeSingle();
     if (data != null) return BlogModel.fromMap(data);
     return null;
   }

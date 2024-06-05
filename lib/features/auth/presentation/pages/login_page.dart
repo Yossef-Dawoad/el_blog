@@ -38,57 +38,63 @@ class _LogInPageState extends State<LogInPage> {
   Widget build(BuildContext context) {
     final l10n = S.of(context);
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.all(Space.dfltSpace),
-        child: BlocConsumer<AuthBloc, AuthState>(
-          listenWhen: (prev, curr) => curr is AuthFailure || curr is AuthSuccess,
-          listener: (context, state) => switch (state) {
-            AuthFailure() => showSnackBar(context, state.message),
-            AuthSuccess() => context.pushNamedRouteAndRemoveUntil(Routes.home),
-            _ => showSnackBar(context, 'Sometning went wrong'),
-          },
-          builder: (context, state) {
-            if (state is AuthLoading) return const FullBodyLoadinIndicator();
-            return Form(
-              key: _formKey,
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(Space.dfltSpace).copyWith(top: 30.0),
+          child: BlocConsumer<AuthBloc, AuthState>(
+            listenWhen: (prev, curr) => curr is AuthFailure || curr is AuthSuccess,
+            listener: (context, state) => switch (state) {
+              AuthFailure() => showSnackBar(context, state.message),
+              AuthSuccess() => context.pushNamedRoute(Routes.home),
+              _ => showSnackBar(context, 'Sometning went wrong'),
+            },
+            builder: (context, state) {
+              if (state is AuthLoading) return const FullBodyLoadinIndicator();
+              return Column(
                 children: [
-                  Text(
-                    l10n.signIn,
-                    style: Theme.of(context).textTheme.titleLarge,
-                  ),
-                  const SizedBox(height: 30),
-                  AuthInputField(
-                    hintText: 'Email',
-                    controller: emailController,
-                  ),
-                  const SizedBox(height: 15),
-                  AuthInputField(
-                    hintText: 'Password',
-                    controller: passwordController,
-                    obscureText: true,
-                  ),
-                  const SizedBox(height: 30),
-                  CTAButton(
-                    label: l10n.signIn,
-                    onPressed: () => _performLogIn(context),
-                  ),
-                  const SizedBox(height: 30),
-                  RichText(
-                    text: TextSpan(
-                      text: l10n.dontHaveAcc,
-                      style: Theme.of(context).textTheme.titleMedium,
+                  Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
                       children: [
-                        TextSpan(
-                          text: l10n.signUp,
-                          style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                color: Pallete.gradient1,
-                                fontWeight: FontWeight.bold,
-                              ),
-                          recognizer: TapGestureRecognizer()
-                            ..onTap = () => context.pushNamedRoute(Routes.signUp),
-                        )
+                        Text(
+                          l10n.signIn,
+                          style: Theme.of(context).textTheme.titleLarge,
+                        ),
+                        const SizedBox(height: 30),
+                        AuthInputField(
+                          hintText: 'Email',
+                          controller: emailController,
+                        ),
+                        const SizedBox(height: 15),
+                        AuthInputField(
+                          hintText: 'Password',
+                          controller: passwordController,
+                          obscureText: true,
+                        ),
+                        const SizedBox(height: 30),
+                        CTAButton(
+                          label: l10n.signIn,
+                          onPressed: () => _performLogIn(context),
+                        ),
+                        const SizedBox(height: 30),
+                        RichText(
+                          text: TextSpan(
+                            text: l10n.dontHaveAcc,
+                            style: Theme.of(context).textTheme.titleMedium,
+                            children: [
+                              TextSpan(
+                                text: l10n.signUp,
+                                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                      color: Pallete.gradient1,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                recognizer: TapGestureRecognizer()
+                                  ..onTap = () => context.pushNamedRoute(Routes.signUp),
+                              )
+                            ],
+                          ),
+                        ),
                       ],
                     ),
                   ),
@@ -96,9 +102,9 @@ class _LogInPageState extends State<LogInPage> {
                   LanguageSwitcher(l10n: l10n),
                   const SizedBox(height: 12.0)
                 ],
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ),
     );

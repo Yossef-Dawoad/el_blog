@@ -1,6 +1,7 @@
 import 'package:clean_blog/core/common/entities/user_entity.dart';
 import 'package:clean_blog/core/errors/exceptions.dart';
 import 'package:clean_blog/core/errors/failure.dart';
+import 'package:clean_blog/core/utils/logs/logger.dart';
 import 'package:clean_blog/core/utils/network/network_manager.dart';
 import 'package:clean_blog/features/auth/data/datasources/remote/auth_datasource.dart';
 import 'package:clean_blog/features/auth/data/models/user_model.dart';
@@ -73,6 +74,7 @@ class AuthRepositoryImpl implements AuthRepository {
       }
       return right(await func());
     } on ServerException catch (e) {
+      logger.e('Server exception Error', error: e);
       return left(BaseFailure(e.message));
     }
   }

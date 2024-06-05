@@ -42,9 +42,7 @@ class LanguageSwitcher extends StatelessWidget {
                         ),
                       ),
                     ),
-                    Expanded(
-                      child: Icon(Icons.arrow_drop_down),
-                    )
+                    const Expanded(child: Icon(Icons.arrow_drop_down))
                   ],
                 ),
               ),

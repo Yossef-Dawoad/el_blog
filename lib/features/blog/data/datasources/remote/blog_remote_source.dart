@@ -1,11 +1,11 @@
 import 'dart:io';
 
+import 'package:clean_blog/core/common/services/cloud_services/cloud_storage_base.dart';
 import 'package:clean_blog/core/errors/exceptions.dart';
 import 'package:clean_blog/features/blog/data/models/blog_model.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'blog_remote_db_store_service.dart';
-import 'blog_remote_storage_service.dart';
 
 abstract interface class BlogRemoteSource {
   Future<List<BlogModel>> getAllBlogsfromCloud();
@@ -18,8 +18,8 @@ abstract interface class BlogRemoteSource {
 
 class BlogRemoteSourceImpl implements BlogRemoteSource {
   // final _client = Supabase.instance.client;
-  final CloudStoreBlogImpl _cloudStoreDBService;
-  final CloudStorageBlogImpl _cloudStorageService;
+  final CloudBlogStoreDBBase _cloudStoreDBService;
+  final CloudStorageBase _cloudStorageService;
 
   BlogRemoteSourceImpl(this._cloudStoreDBService, this._cloudStorageService);
 

@@ -1,3 +1,6 @@
+import 'package:clean_blog/core/secrets/supabase_sec.dart';
+import 'package:clean_blog/core/utils/logs/logger.dart';
+import 'package:flutter/foundation.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 import 'package:clean_blog/core/errors/exceptions.dart';
@@ -24,12 +27,8 @@ class RemoteAuthDataSourceImpl implements RemoteAuthDataSource {
   Future<UserModel?> getCurrentUserData() async {
     try {
       if (currentSession == null) return null;
-      final userData = await client
-          .from('profiles')
-          .select('*')
-          .eq('id', currentSession!.user.id);
-      return UserModel.fromJson(userData.first)
-          .copyWith(email: currentSession!.user.email);
+      final userData = await client.from('profiles').select('*').eq('id', currentSession!.user.id);
+      return UserModel.fromJson(userData.first).copyWith(email: currentSession!.user.email);
     } catch (e) {
       throw ServerException(message: e.toString());
     }
@@ -45,14 +44,18 @@ class RemoteAuthDataSourceImpl implements RemoteAuthDataSource {
         email: email,
         password: password,
       );
-      if (response.user == null) throw ServerException(message: 'User is Null');
 
+      if (response.user == null) throw ServerException(message: 'User is Null');
+      logger.d('Getting SingnIn response ${response.user}');
+      logger.d('User Session is  ${currentSession!.user}');
       return UserModel.fromJson(response.user!.toJson())
           .copyWith(email: currentSession!.user.email);
-    } on AuthException catch (e) {
-      throw ServerException(message: e.message);
-    } catch (e) {
-      throw ServerException(message: e.toString());
+    } on AuthException catch (err) {
+      logger.e('AuthException Error while performing Sign In', error: err);
+      throw ServerException(message: err.message);
+    } catch (err) {
+      logger.e('Unkown Error while performing Sign In', error: err);
+      throw ServerException(message: err.toString());
     }
   }
 
@@ -67,14 +70,15 @@ class RemoteAuthDataSourceImpl implements RemoteAuthDataSource {
         email: email,
         password: password,
         data: {'username': name},
-        // emailRedirectTo: kIsWeb ? null : 'io.supabase.flutterquickstart://login-callback/',
+        emailRedirectTo: kIsWeb ? null : SupaBaseSecrets.SUPABASE_CALLBACK_URL,
       );
       if (response.user == null) throw ServerException(message: 'User is Null');
       return UserModel.fromJson(response.user!.toJson());
     } on AuthException catch (e) {
       throw ServerException(message: e.message);
-    } catch (e) {
-      throw ServerException(message: e.toString());
+    } catch (err) {
+      logger.e('Unkown Error while performing Sign up', error: err);
+      throw ServerException(message: err.toString());
     }
   }
 

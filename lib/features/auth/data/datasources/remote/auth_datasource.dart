@@ -28,8 +28,11 @@ class RemoteAuthDataSourceImpl implements RemoteAuthDataSource {
     try {
       if (currentSession == null) return null;
       final userData = await client.from('profiles').select('*').eq('id', currentSession!.user.id);
+      logger.i('The current UserData', error: userData.first);
+      logger.i('The current Email', error: currentSession!.user.email);
       return UserModel.fromJson(userData.first).copyWith(email: currentSession!.user.email);
     } catch (e) {
+      logger.e('Error While Getting Current Session', error: e.toString());
       throw ServerException(message: e.toString());
     }
   }

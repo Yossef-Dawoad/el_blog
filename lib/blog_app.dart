@@ -1,4 +1,5 @@
 import 'package:clean_blog/core/common/blocs/localization/localization_bloc.dart';
+import 'package:clean_blog/core/common/blocs/app_user/app_user_bloc.dart';
 import 'package:clean_blog/core/di/dependancy_injection.dart';
 import 'package:clean_blog/core/routes/router_config.dart';
 import 'package:clean_blog/core/routes/routes.dart';
@@ -18,6 +19,9 @@ class BlogApp extends StatelessWidget {
       providers: [
         BlocProvider<LocalizationBloc>(
           create: (BuildContext context) => sl<LocalizationBloc>()..add(GetCurrentLocale()),
+        ),
+        BlocProvider<AuthenticatedUserBloc>(
+          create: (context) => sl<AuthenticatedUserBloc>(),
         ),
       ],
       child: BlocBuilder<LocalizationBloc, LocalizationState>(

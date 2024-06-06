@@ -12,10 +12,18 @@ class UserModel extends UserEntity {
   factory UserModel.fromJson(Map<String, dynamic> json) {
     logger.d(json);
 
+    String _tryParseUserName(Map<String, dynamic> json) {
+      try {
+        return json['raw_user_meta_data']['username'] as String;
+      } on NoSuchMethodError catch (e) {
+        return json['username'];
+      }
+    }
+
     return UserModel(
       id: json['id'] as String,
-      username: json['user_metadata']['username'] as String,
-      email: json['email'] as String,
+      username: _tryParseUserName(json),
+      email: json['email'] ?? '',
     );
   }
 

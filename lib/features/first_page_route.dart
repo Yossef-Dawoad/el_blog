@@ -17,9 +17,6 @@ class ManageFirstRoute extends StatelessWidget {
         BlocProvider<AuthBloc>(
           create: (context) => sl<AuthBloc>()..add(AuthGetCurrentUserEvt()),
         ),
-        BlocProvider<AuthenticatedUserBloc>(
-          create: (context) => sl<AuthenticatedUserBloc>(),
-        ),
       ],
       child: BlocSelector<AuthenticatedUserBloc, AuthenticatedUserState, bool>(
         selector: (state) => state is AuthenticatedUserLoggedInSuccess,

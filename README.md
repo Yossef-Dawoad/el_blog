@@ -1,6 +1,6 @@
 # clean_blog
 
-A new Flutter project.
+A Clean Architecture Blog App built with Flutter, Demonstrate the BEST Practies of implementation of Clean Architecture  with shared Logic and Data Layer with Multiple Features.
 
 ## Getting Started
 

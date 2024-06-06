@@ -17,7 +17,8 @@ class AuthRepositoryImpl implements AuthRepository {
   @override
   Future<EitherUser> currentUser() async {
     try {
-      if (!await (networkManager.hasInternetAccess)) {
+      bool hasNetwork = await (networkManager.hasInternetAccess);
+      if (!hasNetwork) {
         final session = dataSource.currentSession;
         if (session == null) return left(BaseFailure('User not Logged In!'));
         return right(
@@ -29,6 +30,7 @@ class AuthRepositoryImpl implements AuthRepository {
         );
       }
       final user = await dataSource.getCurrentUserData();
+      logger.i('The Current User of Data Source', error: user);
       if (user == null) return left(BaseFailure('No user found'));
       return right(user);
     } catch (e) {

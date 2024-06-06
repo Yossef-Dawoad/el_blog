@@ -35,7 +35,7 @@ class _AuthInputFieldState extends State<AuthInputField> {
                   print('isPasswordObscure $isPasswordObscure');
                   print('obscureText ${widget.obscureText}');
                 },
-                icon: isPasswordObscure ? Icon(Icons.visibility_off) : Icon(Icons.visibility),
+                icon: isPasswordObscure ? const Icon(Icons.visibility_off) : const Icon(Icons.visibility),
               )
             : null,
       ),

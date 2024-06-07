@@ -53,17 +53,20 @@ void showLanguagesSwitcherBottomSheet(BuildContext context) {
                         trailing: isSelected
                             ? Icon(
                                 Icons.check_circle_rounded,
-                                color: Theme.of(context).primaryColor,
+                                color: Theme.of(context).colorScheme.primary,
                               )
                             : null,
                         shape: isSelected
                             ? ContinuousRectangleBorder(
                                 borderRadius: BorderRadius.circular(10),
-                                side: BorderSide(color: Theme.of(context).primaryColor, width: 1.5),
+                                side: BorderSide(
+                                  color: Theme.of(context).colorScheme.primary,
+                                  width: 2,
+                                ),
                               )
                             : null,
                         tileColor:
-                            isSelected ? Theme.of(context).primaryColor.withOpacity(0.1) : null,
+                            isSelected ? Theme.of(context).primaryColor.withOpacity(0.2) : null,
                       );
                     },
                     separatorBuilder: (_, __) => const SizedBox(height: 12.0),

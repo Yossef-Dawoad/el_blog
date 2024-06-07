@@ -45,7 +45,7 @@ class _SignUpPageState extends State<SignUpPage> {
           listener: (context, state) => switch (state) {
             AuthLoading() => showSnackBar(context, 'Loading...'),
             AuthFailure() => showSnackBar(context, state.message),
-            AuthSuccess() => context.pushNamedRouteAndRemoveUntil(Routes.logIn),
+            AuthSuccess() => context.pushNamedRoute(Routes.logIn),
             _ => showSnackBar(context, 'Sometning went wrong'),
           },
           builder: (context, state) {
@@ -63,11 +63,9 @@ class _SignUpPageState extends State<SignUpPage> {
                       style: Theme.of(context).textTheme.titleLarge,
                     ),
                     const SizedBox(height: 30),
-                    AuthInputField(
-                        hintText: 'Name', controller: nameController),
+                    AuthInputField(hintText: 'Name', controller: nameController),
                     const SizedBox(height: 15),
-                    AuthInputField(
-                        hintText: 'Email', controller: emailController),
+                    AuthInputField(hintText: 'Email', controller: emailController),
                     const SizedBox(height: 15),
                     AuthInputField(
                       hintText: 'Password',
@@ -87,16 +85,12 @@ class _SignUpPageState extends State<SignUpPage> {
                         children: [
                           TextSpan(
                             text: 'Sign In',
-                            style: Theme.of(context)
-                                .textTheme
-                                .titleMedium
-                                ?.copyWith(
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                   color: Pallete.gradient1,
                                   fontWeight: FontWeight.bold,
                                 ),
                             recognizer: TapGestureRecognizer()
-                              ..onTap =
-                                  () => context.pushNamedRoute(Routes.logIn),
+                              ..onTap = () => context.pushNamedRoute(Routes.logIn),
                           )
                         ],
                       ),

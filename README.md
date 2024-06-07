@@ -1,19 +1,25 @@
 # clean_blog
 
-A new Flutter project.
+A Clean Architecture Blog App built with Flutter, Demonstrate the BEST Practies of implementation of Clean Architecture  with shared Logic and Data Layer with Multiple Features.
 
-## Getting Started
+- [X] Supabase Intigration with 
+    - [X] Authentication Flow
+    - [X] Table Interactions with authentiacted user Policies
+    - [X] A Linked Buckets for Image Uplaoding and Interaction
 
-This project is a starting point for a Flutter application.
+- [X] Dependancy Inversion with `get_it`
+- [X] Testable Repositories and DataSources
+- [X] Passes Basic Tests (Plan to add more in Future)  
 
-A few resources to get you started if this is your first Flutter project:
-
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
-
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## ScreenShots
+-  Sign In & Localization  
 
 
-<--! l3rNabIj5vSs5sHkl3rNabIj5vSs5sHk -->
+![h](https://github.com/Yossef-Dawoad/el_blog/blob/dev/app_screens/sign_in.png)  |  ![b](https://github.com/Yossef-Dawoad/el_blog/blob/dev/app_screens/localization.png) |  ![b](https://github.com/Yossef-Dawoad/el_blog/blob/dev/app_screens/arabic.png)
+:-------------------------:|:-------------------------:|:-------------------------:
+
+-  Blog Features  
+
+
+![h](https://github.com/Yossef-Dawoad/el_blog/blob/dev/app_screens/blogs.png)  |  ![b](https://github.com/Yossef-Dawoad/el_blog/blob/dev/app_screens/create_blog_empty.png) |  ![b](https://github.com/Yossef-Dawoad/el_blog/blob/dev/app_screens/create_blog.png) |  ![b](https://github.com/Yossef-Dawoad/el_blog/blob/dev/app_screens/display_blog.png)
+:-------------------------:|:-------------------------:|:-------------------------:|:-------------------------:

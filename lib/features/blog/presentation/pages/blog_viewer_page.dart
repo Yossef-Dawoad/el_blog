@@ -3,6 +3,7 @@ import 'package:clean_blog/core/utils/calculate_read_time/calculate_read_time.da
 import 'package:clean_blog/core/utils/formatters/date_formatter.dart';
 import 'package:clean_blog/features/blog/domain/entities/blog_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 class BlogViewPage extends StatelessWidget {
   static route(BlogEntity blog) => MaterialPageRoute(
@@ -29,8 +30,7 @@ class BlogViewPage extends StatelessWidget {
                 ),
                 const SizedBox(height: 12),
                 ClipRRect(
-                    borderRadius: BorderRadius.circular(14),
-                    child: Image.network(blog.imageUrl)),
+                    borderRadius: BorderRadius.circular(14), child: Image.network(blog.imageUrl)),
                 const SizedBox(height: 12),
                 Text(
                   'By ${blog.author}',
@@ -39,12 +39,10 @@ class BlogViewPage extends StatelessWidget {
                 const SizedBox(height: 6),
                 Text(
                   '${formatDateBydMMMYYYY(blog.updatedAt)} . ${calcReadingTime(blog.content)} min',
-                  style:
-                      const TextStyle(color: Pallete.greyColor, fontSize: 16),
+                  style: const TextStyle(color: Pallete.greyColor, fontSize: 16),
                 ),
                 const SizedBox(height: 16),
-                //TODO content as markdown
-                Text(blog.content, style: const TextStyle(fontSize: 16)),
+                MarkdownBody(data: blog.content)
               ],
             ),
           ),

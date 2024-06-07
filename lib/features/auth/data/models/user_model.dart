@@ -1,3 +1,5 @@
+import 'package:clean_blog/core/utils/logs/logger.dart';
+
 import '../../../../core/common/entities/user_entity.dart';
 
 class UserModel extends UserEntity {
@@ -8,10 +10,20 @@ class UserModel extends UserEntity {
   });
 
   factory UserModel.fromJson(Map<String, dynamic> json) {
+    logger.d(json);
+
+    String tryParseUserName(Map<String, dynamic> json) {
+      try {
+        return json['raw_user_meta_data']['username'] as String;
+      } on NoSuchMethodError {
+        return json['username'];
+      }
+    }
+
     return UserModel(
       id: json['id'] as String,
-      username: json['username'] as String,
-      email: json['email'] as String,
+      username: tryParseUserName(json),
+      email: json['email'] ?? '',
     );
   }
 

@@ -1,6 +1,7 @@
 import 'package:clean_blog/core/common/blocs/app_user/app_user_bloc.dart';
 import 'package:clean_blog/core/common/usecase/usecase_base.dart';
 import 'package:clean_blog/core/common/entities/user_entity.dart';
+import 'package:clean_blog/core/utils/logs/logger.dart';
 import 'package:clean_blog/features/auth/domain/usecases/get_current_user.dart';
 import 'package:clean_blog/features/auth/domain/usecases/login_usecase.dart';
 import 'package:clean_blog/features/auth/domain/usecases/signup_usecase.dart';
@@ -35,6 +36,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     final result = await _signUpUsecase(
       SignUpUserParams(name: ev.name, email: ev.email, password: ev.password),
     );
+
     result.fold(
       (failure) => emit(AuthFailure(failure.message)),
       (user) => _emitAuthSuccess(user, emit),
@@ -56,6 +58,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     Emitter<AuthState> emit,
   ) async {
     final result = await _getCurrentUser(NoParams());
+    logger.i('Result of GetCurrentUser', error: result);
     result.fold(
       (failure) => emit(AuthFailure(failure.message)),
       (user) => _emitAuthSuccess(user, emit),
@@ -63,6 +66,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   }
 
   void _emitAuthSuccess(UserEntity user, Emitter<AuthState> emit) {
+    logger.i('Emmiting Success State with user', error: user);
     _appUserBloc.add(AuthenticatedUserUpdated(user));
     emit(AuthSuccess(user));
   }

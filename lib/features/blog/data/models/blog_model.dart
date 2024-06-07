@@ -17,8 +17,7 @@ class BlogModel extends BlogEntity {
 
   Map<String, dynamic> toMap() => {
         'id': id,
-        'author_id': authorId,
-        'author': author,
+        'user_id': authorId,
         'title': title,
         'content': content,
         'image_url': imageUrl,
@@ -28,8 +27,7 @@ class BlogModel extends BlogEntity {
 
   factory BlogModel.fromMap(Map<String, dynamic> map) => BlogModel(
         id: map['id'] as String,
-        authorId: map['author_id'] as String,
-        author: map['author'] ?? '',
+        authorId: map['user_id'] as String,
         title: map['title'] as String,
         content: map['content'] as String,
         imageUrl: map['image_url'] as String,

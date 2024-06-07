@@ -8,8 +8,10 @@ A Clean Architecture Blog App built with Flutter, Demonstrate the BEST Practies 
     - [X] A Linked Buckets for Image Uplaoding and Interaction
 
 - [X] Dependancy Inversion with `get_it`
+- [X] 🗨️Localization of the APP
 - [X] Testable Repositories and DataSources
 - [X] Passes Basic Tests (Plan to add more in Future)  
+
 
 ## ScreenShots
 -  Sign In & Localization  

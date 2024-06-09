@@ -33,7 +33,6 @@ class _BlogPageViewState extends State<BlogPageView> {
   @override
   void initState() {
     super.initState();
-    //TODO this require BlogBlocProvider to be added before calling BlogPage every single Time
     context.read<BlogBloc>().add(BlogGetAllBlogs());
   }
 

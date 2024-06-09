@@ -40,10 +40,18 @@ class BlogCardWidget extends StatelessWidget {
                 const SizedBox(height: 10.0),
                 Text(
                   blog.title,
-                  style: const TextStyle(fontSize: 26, overflow: TextOverflow.ellipsis),
+                  style: const TextStyle(
+                    fontSize: 22.0,
+                    overflow: TextOverflow.ellipsis,
+                  ),
                 )
               ],
             ),
+            if (blog.author != null)
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [Text(blog.author!), const SizedBox(height: 12)],
+              ),
             Text('${calcReadingTime(blog.content)} min'),
           ],
         ),

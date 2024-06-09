@@ -13,20 +13,29 @@ import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class AddNewBlog extends StatefulWidget {
-  static route() => MaterialPageRoute(
-        builder: (_) => BlocProvider.value(
-          value: sl<BlogBloc>(),
-          child: const AddNewBlog(),
-        ),
-      );
+class AddNewBlog extends StatelessWidget {
   const AddNewBlog({super.key});
 
   @override
-  State<AddNewBlog> createState() => _AddNewBlogState();
+  Widget build(BuildContext context) {
+    return BlocProvider.value(
+      value: sl<BlogBloc>(),
+      child: const AddNewBlogView(),
+    );
+  }
 }
 
-class _AddNewBlogState extends State<AddNewBlog> {
+class AddNewBlogView extends StatefulWidget {
+  static route() => MaterialPageRoute(
+        builder: (_) => const AddNewBlog(),
+      );
+  const AddNewBlogView({super.key});
+
+  @override
+  State<AddNewBlogView> createState() => _AddNewBlogViewState();
+}
+
+class _AddNewBlogViewState extends State<AddNewBlogView> {
   final TextEditingController _titleCtrl = TextEditingController();
   final TextEditingController _contentCtrl = TextEditingController();
   List<String> selectedTopics = [];
@@ -65,7 +74,7 @@ class _AddNewBlogState extends State<AddNewBlog> {
           if (state is BlogUploadFailure) {
             showSnackBar(context, state.error);
           } else if (state is BloguploadSuccess) {
-            Navigator.pushAndRemoveUntil(context, BlogPage.route(), (route) => false);
+            Navigator.pushAndRemoveUntil(context, BlogPageView.route(), (route) => false);
           }
         },
         builder: (context, state) {

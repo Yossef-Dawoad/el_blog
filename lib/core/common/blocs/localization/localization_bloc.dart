@@ -28,9 +28,10 @@ class LocalizationBloc extends Bloc<LocalizationEvent, LocalizationState> {
     final selectedLanguageVal = prefs.getString('currentLocale');
     emit(
       LocalizationChangeSuccess(
-          selectedLanguage: selectedLanguageVal != null
-              ? LanguagesEnum.values.where((ele) => ele.name == selectedLanguageVal).first
-              : LanguagesEnum.english),
+        selectedLanguage: selectedLanguageVal != null
+            ? LanguagesEnum.values.where((ele) => ele.name == selectedLanguageVal).first
+            : LanguagesEnum.english,
+      ),
     );
   }
 }

@@ -7,6 +7,7 @@ A Clean Architecture Blog App built with Flutter, Demonstrate the BEST Practies 
     - [X] Table Interactions with authentiacted user Policies
     - [X] A Linked Buckets for Image Uplaoding and Interaction
 
+- [X] use of on Gererate Route
 - [X] Dependancy Inversion with `get_it`
 - [X] 🗨️Localization of the APP
 - [X] Testable Repositories and DataSources

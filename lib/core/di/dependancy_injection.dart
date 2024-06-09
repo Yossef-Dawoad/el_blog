@@ -41,26 +41,28 @@ Future<void> initializeDependancies() async {
   sl.registerFactory<NetworkManager>(() => NetworkManagerImpl(sl()));
   sl.registerLazySingleton<SupabaseClient>(() => supabase.client);
 
-  // App Wise Blocs
+  // App Wide Blocs
   sl.registerLazySingleton(() => LocalizationBloc());
+  sl.registerLazySingleton(() => AuthenticatedUserBloc());
 
   _setupAuthDependancies();
   _setupBlogDependancies();
 }
 
 void _setupAuthDependancies() {
-  //-------------------//services//-------------------//
-  sl.registerLazySingleton(() => AuthenticatedUserBloc());
   //-------------------//dataSources//-------------------//
   sl.registerFactory<RemoteAuthDataSource>(
     () => RemoteAuthDataSourceImpl(),
   );
+
   //-------------------//repositories//-------------------//
   sl.registerFactory<AuthRepository>(() => AuthRepositoryImpl(sl(), sl()));
+
   //-------------------//useCases//-------------------//
   sl.registerFactory(() => UserSignUpUsecase(sl()));
   sl.registerFactory(() => UserSignInWithPasswordUsecase(sl()));
   sl.registerFactory(() => GetCurrentUser(sl()));
+
   //--------------------//Controller//-------------------//
   sl.registerLazySingleton(
     () => AuthBloc(

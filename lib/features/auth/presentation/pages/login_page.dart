@@ -45,7 +45,7 @@ class _LogInPageState extends State<LogInPage> {
             listenWhen: (prev, curr) => curr is AuthFailure || curr is AuthSuccess,
             listener: (context, state) => switch (state) {
               AuthFailure() => showSnackBar(context, state.message),
-              AuthSuccess() => context.pushNamedRoute(Routes.home),
+              AuthSuccess() => context.pushReplacementNamedRoute(Routes.home),
               _ => showSnackBar(context, 'Sometning went wrong'),
             },
             builder: (context, state) {

@@ -26,7 +26,7 @@ class AppRouter {
       Routes.home => MaterialPageRoute(
           builder: (_) => BlocProvider<BlogBloc>(
             create: (context) => sl<BlogBloc>(),
-            child: const BlogPage(),
+            child: const BlogPageView(),
           ),
         ),
       _ => _errorRoute(settings.name),

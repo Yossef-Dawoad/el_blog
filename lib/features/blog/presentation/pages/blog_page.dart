@@ -2,21 +2,34 @@ import 'dart:developer';
 
 import 'package:clean_blog/core/common/widgets/loaders.dart';
 import 'package:clean_blog/core/common/widgets/snackbars.dart';
+import 'package:clean_blog/core/di/dependancy_injection.dart';
 import 'package:clean_blog/features/blog/presentation/bloc/blog_bloc/blog_bloc.dart';
 import 'package:clean_blog/features/blog/presentation/pages/add_new_blog.dart';
 import 'package:clean_blog/features/blog/presentation/widgets/blog_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class BlogPage extends StatefulWidget {
-  static route() => MaterialPageRoute(builder: (context) => const BlogPage());
+class BlogPage extends StatelessWidget {
   const BlogPage({super.key});
 
   @override
-  State<BlogPage> createState() => _BlogPageState();
+  Widget build(BuildContext context) {
+    return BlocProvider(
+      create: (context) => sl<BlogBloc>(),
+      child: const BlogPageView(),
+    );
+  }
 }
 
-class _BlogPageState extends State<BlogPage> {
+class BlogPageView extends StatefulWidget {
+  static route() => MaterialPageRoute(builder: (context) => const BlogPage());
+  const BlogPageView({super.key});
+
+  @override
+  State<BlogPageView> createState() => _BlogPageViewState();
+}
+
+class _BlogPageViewState extends State<BlogPageView> {
   @override
   void initState() {
     super.initState();
@@ -35,7 +48,7 @@ class _BlogPageState extends State<BlogPage> {
               MaterialPageRoute(
                 builder: (_) => BlocProvider.value(
                   value: context.read<BlogBloc>(),
-                  child: const AddNewBlog(),
+                  child: const AddNewBlogView(),
                 ),
               ),
             ),

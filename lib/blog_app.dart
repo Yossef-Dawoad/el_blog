@@ -15,6 +15,7 @@ class BlogApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    // Bloc Provider for Localization & wide authenticated app user access
     return MultiBlocProvider(
       providers: [
         BlocProvider<LocalizationBloc>(
